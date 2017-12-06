@@ -4,7 +4,7 @@ set -e
 
 export tmp="/vagrant"
 
-echo "Installing packages for pxe server"
+echo "==> Installing packages for pxe server"
 apt-get update
 apt-get install -fy dnsmasq apache2-mpm-prefork iptables-persistent apt-cacher-ng
 
@@ -12,11 +12,11 @@ apt-get install -fy dnsmasq apache2-mpm-prefork iptables-persistent apt-cacher-n
 mkdir -p /srv/tftpboot
 
 if [[ ! -f /srv/tftpboot/grubnetx64.efi.signed ]]; then
- echo "Downloading grub efi signed pxe boot image"
+ echo "==> Downloading grub efi signed pxe boot image"
  wget -O /srv/tftpboot/grubnetx64.efi.signed http://archive.ubuntu.com/ubuntu/dists/xenial/main/uefi/grub2-amd64/current/grubnetx64.efi.signed >/dev/null 2>&1
 fi
 if [[ ! -f /srv/tftpboot/netboot.tar.gz ]]; then
- echo "Downloading netboot tarball"
+ echo "==> Downloading netboot tarball"
  wget -O /srv/tftpboot/netboot.tar.gz http://archive.ubuntu.com/ubuntu/dists/xenial/main/installer-amd64/current/images/netboot/netboot.tar.gz
 fi
 
@@ -33,7 +33,7 @@ cp -f $tmp/files/txt-network.cfg /srv/tftpboot/ubuntu-installer/amd64/boot-scree
 
 #Copy preseed and scripts to html
 cp -f $tmp/files/secure-desktop.seed /tmp/secure-desktop.seed
-echo "Updating late_command for preseed"
+echo "==> Updating late_command for preseed"
 $tmp/scripts/setup_preseed_command.sh >> /tmp/secure-desktop.seed
 cp /tmp/secure-desktop.seed /var/www/html/secure-desktop-nvme0.seed
 cp /tmp/secure-desktop.seed /var/www/html/secure-desktop-sda.seed
@@ -53,7 +53,7 @@ chown -R www-data:www-data /var/www/html
 cp -f $tmp/files/dnsmasq.conf /etc/
 
 #Setup machine to be the router 
-echo "Setup ip forwarding and Masquerading"
+echo "==> Setup ip forwarding and Masquerading"
 echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 sysctl -p > /dev/null
 /sbin/iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE

@@ -81,4 +81,4 @@ isohybrid ${SEED}/$TARGET
 #sleep 300
 rm -fr ${WORK}/newIso
 
-echo created $TARGET
+echo "==> created $TARGET"
