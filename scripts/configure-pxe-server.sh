@@ -6,7 +6,7 @@ export tmp="/vagrant"
 
 echo "==> Installing packages for pxe server"
 apt-get update
-apt-get install -fy dnsmasq apache2 iptables-persistent apt-cacher-ng
+DEBIAN_FRONTEND=noninteractive apt-get -q -y -o DPkg::Options::=--force-confold -o DPkg::Options::=--force-confdef install dnsmasq apache2 iptables-persistent apt-cacher-ng curl
 
 #Location for all pxe files
 mkdir -p /srv/tftpboot
